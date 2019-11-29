@@ -1,26 +1,34 @@
 <template>
-  <div class="user">
-    <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        style="width: 160px;border: 0;height: 100%;"
-        text-color="#8CC7B5"
-        active-text-color="#D1BA74">
-      <el-menu-item index="1">
-        <i class="el-icon-menu"></i>
-        <span slot="title">用户信息</span>
-      </el-menu-item>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">角色管理</span>
-      </el-menu-item>
-      <el-menu-item index="3">
-        <i class="el-icon-menu"></i>
-        <span slot="title">权限管理</span>
-      </el-menu-item>
-      <el-menu-item v-for="i in lists"></el-menu-item>
-    </el-menu>
-  </div>
+    <div class="user">
+        <el-container>
+    <!--      <el-header>Header</el-header>-->
+            <el-container>
+                <el-aside width="200px">
+                    <el-menu default-active="1"
+                             style="width: 180px;border: 0;height: 800px;"
+                             text-color="#8CC7B5"
+                             active-text-color="#D1BA74" @select="handleSelect">
+                        <el-menu-item index="1">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">用户管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="2">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">角色管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="3">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">权限管理</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+                <el-main>
+                  <router-view/>
+                </el-main>
+            </el-container>
+
+        </el-container>
+    </div>
 </template>
 
 <script>
@@ -28,8 +36,25 @@
         name: "User",
         data() {
             return {
-                lists: [1,2,3,4,5,6,7,8,9,10]
             }
+        },
+        methods: {
+            handleSelect(index) {
+                switch (index) {
+                    case '1':
+                        this.$router.push({path: '/UserManager'});
+                        break;
+                    case '2':
+                        this.$router.push({path: '/RoleManager'});
+                        break;
+                    case '3':
+                        this.$router.push({path: '/PermissionManager'});
+                        break;
+                }
+            }
+        },
+        mounted() {
+            this.$router.push({path: '/UserManager'});
         }
     }
 </script>

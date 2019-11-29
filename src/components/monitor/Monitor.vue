@@ -18,7 +18,6 @@
         <i class="el-icon-menu"></i>
         <span slot="title">聊天监控</span>
       </el-menu-item>
-      <el-menu-item v-for="i in lists"></el-menu-item>
     </el-menu>
   </div>
 </template>
