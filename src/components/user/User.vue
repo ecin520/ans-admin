@@ -53,7 +53,7 @@
                 }
             }
         },
-        mounted() {
+        created() {
             this.$router.push({path: '/UserManager'});
         }
     }

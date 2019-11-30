@@ -45,7 +45,7 @@
                 }
             }
         },
-      mounted() {
+      created() {
           this.$router.push({name: 'User'});
       }
     }
