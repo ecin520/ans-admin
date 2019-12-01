@@ -10,10 +10,15 @@
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
         <br/><br/>
-        <el-table :data="tableData" style="width: 98%" @row-click="rowClick">
-            <el-table-column prop="id" label="ID" width="180"></el-table-column>
-            <el-table-column prop="role_name" label="角色名称" width="180"></el-table-column>
+        <el-table :data="tableData" highlight-current-row style="width: 98%"  border @row-click="rowClick">
+            <el-table-column prop="id" label="ID" ></el-table-column>
+            <el-table-column prop="role_name" label="角色名称" ></el-table-column>
             <el-table-column prop="role_describe" label="角色描述"></el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button size="mini" type="primary" @click="grantPermission(scope.$index, scope.row)">授权</el-button>
+                </template>
+            </el-table-column>
         </el-table>
 
         <el-dialog
@@ -54,6 +59,36 @@
             </span>
         </el-dialog>
 
+        <el-dialog
+                title="角色拥有权限"
+                :visible.sync="dialogVisible2"
+                :show-close="false"
+                top="1vh"
+                width="550px">
+            <el-table :data="permission" border style="width: 100%">
+                <el-table-column prop="id" label="ID" ></el-table-column>
+                <el-table-column prop="permission_name" label="权限名" ></el-table-column>
+                <el-table-column prop="permission_describe" label="权限描述" ></el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="grantPermissionClick">授予权限</el-button>
+                <el-button type="primary" @click="">确认</el-button>
+            </span>
+        </el-dialog>
+
+        <el-dialog
+                title="授予权限"
+                :visible.sync="dialogVisible3"
+                :show-close="false"
+                top="1vh"
+                width="650px">
+            <el-table :data="permissionTable" style="width: 100%" border @row-click="permissionTableRowClick">
+                <el-table-column prop="id" label="ID" ></el-table-column>
+                <el-table-column prop="permission_name" label="权限名" ></el-table-column>
+                <el-table-column prop="permission_describe" label="权限描述" ></el-table-column>
+            </el-table>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -70,10 +105,26 @@
                 ],
                 dialogVisible: false,
                 dialogVisible1: false,
+                dialogVisible2: false,
+                dialogVisible3: false,
                 role: [
                     {
                         role_name: '',
                         role_describe: ''
+                    }
+                ],
+                permission: [
+                    {
+                        id: '',
+                        permission_name: '',
+                        permission_describe: ''
+                    }
+                ],
+                permissionTable: [
+                    {
+                        id: '',
+                        permission_name: '',
+                        permission_describe: ''
                     }
                 ],
                 modifyRole: [
@@ -103,8 +154,44 @@
                 this.dialogVisible = true;
             },
             rowClick(row) {
-                this.dialogVisible1 = true;
+                if (this.dialogVisible2 === false) {
+                    this.dialogVisible1 = true;
+                }
                 this.modifyRole = row;
+            },
+            permissionTableRowClick(row) {
+
+                this.$confirm('此操作将授予该用户此角色，是否授予？', 'Tiptop', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+
+                    this.$axios({
+                        url: '/api/rolePermission/insertRolePermission',
+                        method: 'post',
+                        params: {
+                            'rid': this.modifyRole.id,
+                            'pid': row.id
+                        }
+                    }).then(response => {
+                        this.$message({
+                            type: 'success',
+                            message: response.data
+                        });
+                    }).catch(error => {
+                        this.$message({
+                            type: 'error',
+                            message: '授予权限失败'
+                        });
+                    }).finally(fina =>{
+                        this.dialogVisible2 = false;
+                        this.dialogVisible3 = false;
+                    });
+                }).catch(() => {
+
+                });
+
             },
             modifySubmit() {
 
@@ -174,6 +261,41 @@
                     });
                 });
                 this.dialogVisible = false;
+
+            },
+            grantPermission(index) {
+                this.modifyRole = this.tableData[index];
+                this.$axios({
+                    url: '/api/rolePermission/listPermissionsByRoleId',
+                    method: 'post',
+                    params: {
+                        'rid': this.modifyRole.id
+                    }
+                }).then(response => {
+                    this.permission = response.data
+                }).catch(error => {
+                    this.$message({
+                        message: '查询失败！',
+                        type: 'error'
+                    });
+                });
+                this.dialogVisible2 = true;
+            },
+            grantPermissionClick() {
+                this.dialogVisible3 = true;
+
+                this.$axios({
+                    url: '/api/permission/listAllPermissions',
+                    method: 'get'
+                }).then(response => {
+                    this.permissionTable = response.data
+                }).catch(error => {
+                    this.$message({
+                        message: '查询失败！',
+                        type: 'error'
+                    });
+                });
+
 
             }
         }

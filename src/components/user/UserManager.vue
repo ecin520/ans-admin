@@ -10,7 +10,7 @@
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
         <br/><br/>
-        <el-table :data="tableData" style="width: 98%" @row-click="rowClick" >
+        <el-table :data="tableData" style="width: 98%" border @row-click="rowClick" >
             <el-table-column prop="id" label="ID" width="180"></el-table-column>
             <el-table-column prop="username" label="用户名" width="180"></el-table-column>
             <el-table-column prop="nickname" label="昵称"></el-table-column>
@@ -21,7 +21,7 @@
             <el-table-column label="操作">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="handle(scope.$index, scope.row)">角色</el-button>
-                    <el-button size="mini" type="danger" >权限</el-button>
+                    <el-button size="mini" type="danger" @click="permissionClick(scope.$index, scope.row)">权限</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -102,17 +102,54 @@
                 title="用户拥有角色"
                 :visible.sync="dialogVisible2"
                 :show-close="false"
-                width="450px">
-            <el-table :data="role" style="width: 100%" @row-click="rowClick" >
+                top="1vh"
+                width="550px">
+            <el-table :data="role" style="width: 100%" border @row-click="deleteRowClick" >
                 <el-table-column prop="id" label="ID" ></el-table-column>
                 <el-table-column prop="role_name" label="角色名" ></el-table-column>
                 <el-table-column prop="role_describe" label="角色描述" ></el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="grantRole">授予角色</el-button>
+                <el-button type="primary" @click="">确认</el-button>
+            </span>
+        </el-dialog>
+
+        <el-dialog
+                title="用户拥有权限"
+                :visible.sync="permissionDialogVisible"
+                :show-close="false"
+                top="1vh"
+                width="550px">
+            <el-table :data="permission" border style="width: 100%">
+                <el-table-column prop="id" label="ID" ></el-table-column>
+                <el-table-column prop="permission_name" label="权限名" ></el-table-column>
+                <el-table-column prop="permission_describe" label="权限描述" ></el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+<!--                <el-button @click="grantPermission">授予权限</el-button>-->
+<!--                <el-button type="primary" @click="">确认</el-button>-->
+            </span>
+        </el-dialog>
+
+        <el-dialog
+                title="授予角色"
+                :visible.sync="roleDialogVisible"
+                :show-close="false"
+                top="1vh"
+                width="750px">
+            <el-table :data="allRoles" style="width: 98%" border @row-click="roleRowClick">
+                <el-table-column prop="id" label="ID" width="180"></el-table-column>
+                <el-table-column prop="role_name" label="角色名称" width="180"></el-table-column>
+                <el-table-column prop="role_describe" label="角色描述"></el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible2 = false">Cancel</el-button>
                 <el-button type="primary" @click="">Confirm</el-button>
             </span>
         </el-dialog>
+
+
     </div>
 
 
@@ -135,7 +172,23 @@
                 dialogVisible: false,
                 dialogVisible1: false,
                 dialogVisible2: false,
+                roleDialogVisible: false,
+                permissionDialogVisible: false,
                 role: [
+                    {
+                        id: '',
+                        role_name: '',
+                        role_describe: ''
+                    }
+                ],
+                permission: [
+                    {
+                        id: '',
+                        permission_name: '',
+                        permission_describe: ''
+                    }
+                ],
+                allRoles: [
                     {
                         id: '',
                         role_name: '',
@@ -177,6 +230,9 @@
                 this.dialogVisible = true;
             },
             handle(index) {
+
+                this.modifyUser = this.tableData[index];
+
                 this.$axios({
                     url: '/api/userRole/listRolesByUserId',
                     method: 'post',
@@ -184,7 +240,7 @@
                         'id': this.tableData[index].id,
                     }
                 }).then(response => {
-
+                    this.role = response.data
                 }).catch(error => {
                     this.$message({
                         message: '查询失败',
@@ -192,8 +248,42 @@
                     });
                 });
 
-
                 this.dialogVisible2 = true;
+            },
+            permissionClick(index){
+
+                this.modifyUser = this.tableData[index];
+                this.$axios({
+                    url: '/api/rolePermission/listPermissionsByUserId',
+                    method: 'post',
+                    params: {
+                        'id': this.tableData[index].id,
+                    }
+                }).then(response => {
+                    this.permission = response.data
+                }).catch(error => {
+                    this.$message({
+                        message: '查询失败',
+                        type: 'error'
+                    });
+                });
+                this.permissionDialogVisible = true;
+
+            },
+            grantRole() {
+                this.roleDialogVisible = true;
+
+                this.$axios({
+                    url: '/api/role/listAllRoles',
+                    method: 'get'
+                }).then(response => {
+                    this.allRoles = response.data
+                }).catch(error => {
+                    this.$message({
+                        message: '查询失败！',
+                        type: 'error'
+                    });
+                });
 
             },
             formSubmit() {
@@ -255,9 +345,72 @@
 
             },
             rowClick(row) {
-                if (this.dialogVisible2 === false)
+                if (this.dialogVisible2 === false && this.permissionDialogVisible === false)
                     this.dialogVisible1 = true;
                 this.modifyUser = row;
+            },
+            roleRowClick(row) {
+                this.$confirm('此操作将授予该用户此角色，是否授予？', 'Tiptop', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$axios({
+                        url: '/api/userRole/insertUserRole',
+                        method: 'post',
+                        params: {
+                            'uid': this.modifyUser.id,
+                            'rid': row.id
+                        }
+                    }).then(response => {
+                        this.$message({
+                            type: 'success',
+                            message: response.data
+                        });
+                    }).catch(error => {
+                        this.$message({
+                            type: 'error',
+                            message: '授予角色失败'
+                        });
+                    }).finally(fina =>{
+                        this.roleDialogVisible = false;
+                        this.dialogVisible2 = false;
+                    });
+                }).catch(() => {
+
+                });
+
+            },
+            deleteRowClick(row) {
+
+                this.$confirm('此操作将删除该用户此角色，是否删除？', 'Tiptop', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$axios({
+                        url: '/api/userRole/deleteUserRole',
+                        method: 'post',
+                        params: {
+                            'uid': this.modifyUser.id,
+                            'rid': row.id
+                        }
+                    }).then(response => {
+                        this.$message({
+                            type: 'success',
+                            message: response.data
+                        });
+                    }).catch(error => {
+                        this.$message({
+                            type: 'error',
+                            message: '删除角色失败'
+                        });
+                    });
+
+                    this.dialogVisible2 = false;
+                }).catch(() => {
+                });
+
             },
             deleteUser() {
 
