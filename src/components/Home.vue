@@ -9,11 +9,11 @@
                 style="border: 0;"
                 active-text-color="#D1BA74">
             <el-menu-item index="1">用户管理</el-menu-item>
-            <el-menu-item index="2">实时监控</el-menu-item>
-            <el-menu-item index="3">系统管理</el-menu-item>
-            <el-menu-item index="4">题目管理</el-menu-item>
+            <el-menu-item index="2">用户监控</el-menu-item>
+            <el-menu-item index="3">题目管理</el-menu-item>
+            <el-menu-item index="4">系统管理</el-menu-item>
             <el-menu-item style="float: right">
-                <el-button index="5">注销</el-button>
+                <el-button @click="unLogin" index="5">注销</el-button>
             </el-menu-item>
         </el-menu>
         <router-view/>
@@ -36,13 +36,21 @@
                         this.$router.push({name: 'Monitor'});
                         break;
                     case '3':
-                        this.$router.push({name: 'SystemManager'});
+                        this.$router.push({name: 'Question'});
                         break;
                     case '4':
-                        this.$router.push({name: 'QuestionManager'});
+                        this.$router.push({name: 'System'});
                         break;
 
                 }
+            },
+            unLogin() {
+                this.$cookies.remove('isLogin');
+                this.$message({
+                    message: '注销成功！',
+                    type: 'success'
+                });
+                this.$router.push('/');
             }
         },
       created() {

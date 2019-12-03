@@ -10,7 +10,7 @@
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
         <br/><br/>
-        <el-table :data="tableData" style="width: 98%" @row-click="rowClick">
+        <el-table border :data="tableData" style="width: 98%" @row-click="rowClick">
             <el-table-column prop="id" label="ID" width="180"></el-table-column>
             <el-table-column prop="permission_name" label="权限名称" width="180"></el-table-column>
             <el-table-column prop="permission_describe" label="权限描述"></el-table-column>
@@ -86,7 +86,7 @@
         },
         mounted() {
             this.$axios({
-                url: '/api/permission/listAllPermissions',
+                url: '/api/client/permission/listAllPermissions',
                 method: 'get'
             }).then(response => {
                 this.tableData = response.data
@@ -109,7 +109,7 @@
             modifySubmit() {
 
                 this.$axios({
-                    url: '/api/permission/updatePermission',
+                    url: '/api/client/permission/updatePermission',
                     method: 'post',
                     data: {
                         'id': this.modifyPermission.id,
@@ -134,7 +134,7 @@
             deleteRole() {
 
                 this.$axios({
-                    url: '/api/permission/deletePermissionById',
+                    url: '/api/client/permission/deletePermissionById',
                     method: 'post',
                     params: {
                         'id': this.modifyPermission.id
@@ -156,7 +156,7 @@
             formSubmit() {
 
                 this.$axios({
-                    url: '/api/permission/insertPermission',
+                    url: '/api/client/permission/insertPermission',
                     method: 'post',
                     data: {
                         'permission_name': this.permission.permission_name,

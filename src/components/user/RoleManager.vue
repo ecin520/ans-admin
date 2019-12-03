@@ -14,7 +14,7 @@
             <el-table-column prop="id" label="ID" ></el-table-column>
             <el-table-column prop="role_name" label="角色名称" ></el-table-column>
             <el-table-column prop="role_describe" label="角色描述"></el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="80">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="grantPermission(scope.$index, scope.row)">授权</el-button>
                 </template>
@@ -137,7 +137,7 @@
         },
         mounted() {
             this.$axios({
-                url: '/api/role/listAllRoles',
+                url: '/api/client/role/listAllRoles',
                 method: 'get'
             }).then(response => {
                 this.tableData = response.data
@@ -168,7 +168,7 @@
                 }).then(() => {
 
                     this.$axios({
-                        url: '/api/rolePermission/insertRolePermission',
+                        url: '/api/client/rolePermission/insertRolePermission',
                         method: 'post',
                         params: {
                             'rid': this.modifyRole.id,
@@ -196,7 +196,7 @@
             modifySubmit() {
 
                 this.$axios({
-                    url: '/api/role/updateRole',
+                    url: '/api/client/role/updateRole',
                     method: 'post',
                     data: {
                         'id': this.modifyRole.id,
@@ -221,7 +221,7 @@
             deleteRole() {
 
                 this.$axios({
-                    url: '/api/role/deleteRoleById',
+                    url: '/api/client/role/deleteRoleById',
                     method: 'post',
                     params: {
                         'id': this.modifyRole.id
@@ -243,7 +243,7 @@
             formSubmit() {
 
                 this.$axios({
-                    url: '/api/role/insertRole',
+                    url: '/api/client/role/insertRole',
                     method: 'post',
                     params: {
                         'role_name': this.role.role_name,
@@ -266,7 +266,7 @@
             grantPermission(index) {
                 this.modifyRole = this.tableData[index];
                 this.$axios({
-                    url: '/api/rolePermission/listPermissionsByRoleId',
+                    url: '/api/client/rolePermission/listPermissionsByRoleId',
                     method: 'post',
                     params: {
                         'rid': this.modifyRole.id
@@ -285,7 +285,7 @@
                 this.dialogVisible3 = true;
 
                 this.$axios({
-                    url: '/api/permission/listAllPermissions',
+                    url: '/api/client/permission/listAllPermissions',
                     method: 'get'
                 }).then(response => {
                     this.permissionTable = response.data

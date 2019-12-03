@@ -11,14 +11,14 @@
         </el-input>
         <br/><br/>
         <el-table :data="tableData" style="width: 98%" border @row-click="rowClick" >
-            <el-table-column prop="id" label="ID" width="180"></el-table-column>
-            <el-table-column prop="username" label="用户名" width="180"></el-table-column>
+            <el-table-column prop="id" label="ID"></el-table-column>
+            <el-table-column prop="username" label="用户名"></el-table-column>
             <el-table-column prop="nickname" label="昵称"></el-table-column>
-            <el-table-column prop="tel_number" label="电话"></el-table-column>
+            <el-table-column prop="tel_number" label="电话" width="180"></el-table-column>
             <el-table-column prop="rank" label="等级"></el-table-column>
 <!--            <el-table-column prop="sign" label="签名"></el-table-column>-->
             <el-table-column prop="status" label="用户状态"></el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="handle(scope.$index, scope.row)">角色</el-button>
                     <el-button size="mini" type="danger" @click="permissionClick(scope.$index, scope.row)">权限</el-button>
@@ -234,7 +234,7 @@
                 this.modifyUser = this.tableData[index];
 
                 this.$axios({
-                    url: '/api/userRole/listRolesByUserId',
+                    url: '/api/client/userRole/listRolesByUserId',
                     method: 'post',
                     params: {
                         'id': this.tableData[index].id,
@@ -254,7 +254,7 @@
 
                 this.modifyUser = this.tableData[index];
                 this.$axios({
-                    url: '/api/rolePermission/listPermissionsByUserId',
+                    url: '/api/client/rolePermission/listPermissionsByUserId',
                     method: 'post',
                     params: {
                         'id': this.tableData[index].id,
@@ -274,7 +274,7 @@
                 this.roleDialogVisible = true;
 
                 this.$axios({
-                    url: '/api/role/listAllRoles',
+                    url: '/api/client/role/listAllRoles',
                     method: 'get'
                 }).then(response => {
                     this.allRoles = response.data
@@ -289,7 +289,7 @@
             formSubmit() {
 
                 this.$axios({
-                    url: '/api/user/insertUser',
+                    url: '/api/client/user/insertUser',
                     method: 'post',
                     data: {
                         'username': this.user.username,
@@ -314,7 +314,7 @@
             modifySubmit() {
 
                 this.$axios({
-                    url: '/api/user/updateUser',
+                    url: '/api/client/user/updateUser',
                     method: 'post',
                     data: {
                         'id': this.modifyUser.id,
@@ -356,7 +356,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.$axios({
-                        url: '/api/userRole/insertUserRole',
+                        url: '/api/client/userRole/insertUserRole',
                         method: 'post',
                         params: {
                             'uid': this.modifyUser.id,
@@ -389,7 +389,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.$axios({
-                        url: '/api/userRole/deleteUserRole',
+                        url: '/api/client/userRole/deleteUserRole',
                         method: 'post',
                         params: {
                             'uid': this.modifyUser.id,
@@ -415,7 +415,7 @@
             deleteUser() {
 
                 this.$axios({
-                    url: '/api/user/deleteUserById',
+                    url: '/api/client/user/deleteUserById',
                     method: 'post',
                     params: {
                         'id': this.modifyUser.id
@@ -436,7 +436,7 @@
         },
         mounted() {
             this.$axios({
-                url: '/api/user/listAllUsers',
+                url: '/api/client/user/listAllUsers',
                 method: 'get'
             }).then(response => {
                 this.tableData = response.data;

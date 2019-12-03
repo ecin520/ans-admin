@@ -1,7 +1,6 @@
 <template>
     <div class="user">
         <el-container>
-    <!--      <el-header>Header</el-header>-->
             <el-container>
                 <el-aside width="200px">
                     <el-menu default-active="1"
@@ -9,15 +8,15 @@
                              text-color="#8CC7B5"
                              active-text-color="#D1BA74" @select="handleSelect">
                         <el-menu-item index="1">
-                            <i class="el-icon-menu"></i>
+                            <i class="el-icon-user"></i>
                             <span slot="title">用户管理</span>
                         </el-menu-item>
                         <el-menu-item index="2">
-                            <i class="el-icon-menu"></i>
+                            <i class="el-icon-loading"></i>
                             <span slot="title">角色管理</span>
                         </el-menu-item>
                         <el-menu-item index="3">
-                            <i class="el-icon-menu"></i>
+                            <i class="el-icon-key"></i>
                             <span slot="title">权限管理</span>
                         </el-menu-item>
                     </el-menu>
