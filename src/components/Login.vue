@@ -38,6 +38,7 @@
                     });
                     if (response.data['status code'] === 200) {
                         this.$cookies.set('isLogin', 'ecin520');
+                        this.$cookies.set('user', this.username);
                         this.$router.push({name: 'Home'});
                     }
                 }).catch(error => {
