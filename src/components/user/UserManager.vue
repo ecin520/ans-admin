@@ -11,14 +11,14 @@
         </el-input>
         <br/><br/>
         <el-table :data="tableData" style="width: 98%" border @row-click="rowClick" >
-            <el-table-column prop="id" label="ID"></el-table-column>
-            <el-table-column prop="username" label="用户名"></el-table-column>
-            <el-table-column prop="nickname" label="昵称"></el-table-column>
-            <el-table-column prop="tel_number" label="电话" width="180"></el-table-column>
-            <el-table-column prop="rank" label="等级"></el-table-column>
+            <el-table-column align="center" prop="id" label="ID"></el-table-column>
+            <el-table-column align="center" prop="username" label="用户名"></el-table-column>
+            <el-table-column align="center" prop="nickname" label="昵称"></el-table-column>
+            <el-table-column align="center" prop="tel_number" label="电话" width="180"></el-table-column>
+            <el-table-column align="center" prop="rank" label="等级"></el-table-column>
 <!--            <el-table-column prop="sign" label="签名"></el-table-column>-->
-            <el-table-column prop="status" label="用户状态"></el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column align="center" prop="status" label="用户状态"></el-table-column>
+            <el-table-column align="center" label="操作" width="180">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="handle(scope.$index, scope.row)">角色</el-button>
                     <el-button size="mini" type="danger" @click="permissionClick(scope.$index, scope.row)">权限</el-button>
@@ -105,9 +105,9 @@
                 top="1vh"
                 width="550px">
             <el-table :data="role" style="width: 100%" border @row-click="deleteRowClick" >
-                <el-table-column prop="id" label="ID" ></el-table-column>
-                <el-table-column prop="role_name" label="角色名" ></el-table-column>
-                <el-table-column prop="role_describe" label="角色描述" ></el-table-column>
+                <el-table-column align="center" prop="id" label="ID" ></el-table-column>
+                <el-table-column align="center" prop="role_name" label="角色名" ></el-table-column>
+                <el-table-column align="center" prop="role_describe" label="角色描述" ></el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="grantRole">授予角色</el-button>
@@ -122,9 +122,9 @@
                 top="1vh"
                 width="550px">
             <el-table :data="permission" border style="width: 100%">
-                <el-table-column prop="id" label="ID" ></el-table-column>
-                <el-table-column prop="permission_name" label="权限名" ></el-table-column>
-                <el-table-column prop="permission_describe" label="权限描述" ></el-table-column>
+                <el-table-column align="center" prop="id" label="ID" ></el-table-column>
+                <el-table-column align="center" prop="permission_name" label="权限名" ></el-table-column>
+                <el-table-column align="center" prop="permission_describe" label="权限描述" ></el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
 <!--                <el-button @click="grantPermission">授予权限</el-button>-->
@@ -139,9 +139,9 @@
                 top="1vh"
                 width="750px">
             <el-table :data="allRoles" style="width: 98%" border @row-click="roleRowClick">
-                <el-table-column prop="id" label="ID" width="180"></el-table-column>
-                <el-table-column prop="role_name" label="角色名称" width="180"></el-table-column>
-                <el-table-column prop="role_describe" label="角色描述"></el-table-column>
+                <el-table-column align="center" prop="id" label="ID" width="180"></el-table-column>
+                <el-table-column align="center" prop="role_name" label="角色名称" width="180"></el-table-column>
+                <el-table-column align="center" prop="role_describe" label="角色描述"></el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible2 = false">Cancel</el-button>

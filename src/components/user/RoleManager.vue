@@ -11,10 +11,10 @@
         </el-input>
         <br/><br/>
         <el-table :data="tableData" highlight-current-row style="width: 98%"  border @row-click="rowClick">
-            <el-table-column prop="id" label="ID" ></el-table-column>
-            <el-table-column prop="role_name" label="角色名称" ></el-table-column>
-            <el-table-column prop="role_describe" label="角色描述"></el-table-column>
-            <el-table-column label="操作" width="80">
+            <el-table-column align="center" prop="id" label="ID" ></el-table-column>
+            <el-table-column align="center" prop="role_name" label="角色名称" ></el-table-column>
+            <el-table-column align="center" prop="role_describe" label="角色描述"></el-table-column>
+            <el-table-column align="center" label="操作" width="80">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="grantPermission(scope.$index, scope.row)">授权</el-button>
                 </template>
@@ -66,9 +66,9 @@
                 top="1vh"
                 width="550px">
             <el-table :data="permission" border style="width: 100%">
-                <el-table-column prop="id" label="ID" ></el-table-column>
-                <el-table-column prop="permission_name" label="权限名" ></el-table-column>
-                <el-table-column prop="permission_describe" label="权限描述" ></el-table-column>
+                <el-table-column align="center" prop="id" label="ID" ></el-table-column>
+                <el-table-column align="center" prop="permission_name" label="权限名" ></el-table-column>
+                <el-table-column align="center" prop="permission_describe" label="权限描述" ></el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="grantPermissionClick">授予权限</el-button>
@@ -83,9 +83,9 @@
                 top="1vh"
                 width="650px">
             <el-table :data="permissionTable" style="width: 100%" border @row-click="permissionTableRowClick">
-                <el-table-column prop="id" label="ID" ></el-table-column>
-                <el-table-column prop="permission_name" label="权限名" ></el-table-column>
-                <el-table-column prop="permission_describe" label="权限描述" ></el-table-column>
+                <el-table-column align="center" prop="id" label="ID" ></el-table-column>
+                <el-table-column align="center" prop="permission_name" label="权限名" ></el-table-column>
+                <el-table-column align="center" prop="permission_describe" label="权限描述" ></el-table-column>
             </el-table>
         </el-dialog>
 

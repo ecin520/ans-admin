@@ -11,9 +11,9 @@
         </el-input>
         <br/><br/>
         <el-table border :data="tableData" style="width: 98%" @row-click="rowClick">
-            <el-table-column prop="id" label="ID" width="180"></el-table-column>
-            <el-table-column prop="permission_name" label="权限名称" width="180"></el-table-column>
-            <el-table-column prop="permission_describe" label="权限描述"></el-table-column>
+            <el-table-column align="center" prop="id" label="ID" width="180"></el-table-column>
+            <el-table-column align="center" prop="permission_name" label="权限名称" width="180"></el-table-column>
+            <el-table-column align="center" prop="permission_describe" label="权限描述"></el-table-column>
         </el-table>
 
         <el-dialog

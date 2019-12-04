@@ -10,15 +10,15 @@
                         active-text-color="#D1BA74"
                         @select="handleSelect">
                     <el-menu-item index="1">
-                        <i class="el-icon-menu"></i>
+                        <i class="el-icon-loading"></i>
                         <span slot="title">题目分类</span>
                     </el-menu-item>
                     <el-menu-item index="2">
-                        <i class="el-icon-menu"></i>
+                        <i class="el-icon-loading"></i>
                         <span slot="title">答题状态</span>
                     </el-menu-item>
                     <el-menu-item index="3">
-                        <i class="el-icon-menu"></i>
+                        <i class="el-icon-loading"></i>
                         <span slot="title">题目审核</span>
                     </el-menu-item>
                 </el-menu>

@@ -9,12 +9,12 @@
             highlight-current-row
             style="width: 98%"
             border @row-click="rowClick">
-            <el-table-column prop="id" label="ID" ></el-table-column>
-            <el-table-column prop="type_name" label="类型名" ></el-table-column>
-            <el-table-column prop="type_describe" label="类型描述" ></el-table-column>
-            <el-table-column prop="hot" label="热度" ></el-table-column>
-            <el-table-column prop="difficulty" label="难度" ></el-table-column>
-            <el-table-column label="操作" width="80">
+            <el-table-column :show-overflow-tooltip="true" align="center" prop="id" label="ID" ></el-table-column>
+            <el-table-column :show-overflow-tooltip="true" align="center" prop="type_name" label="类型名" ></el-table-column>
+            <el-table-column :show-overflow-tooltip="true" align="center" prop="type_describe" label="类型描述" ></el-table-column>
+            <el-table-column :show-overflow-tooltip="true" align="center" prop="hot" label="热度" ></el-table-column>
+            <el-table-column :show-overflow-tooltip="true" align="center" prop="difficulty" label="难度" ></el-table-column>
+            <el-table-column :show-overflow-tooltip="true" align="center" label="操作" width="80">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="doit(scope.$index, scope.row)">操作</el-button>
                 </template>
@@ -87,7 +87,7 @@
 
         <el-dialog
             :visible.sync="addRadioBtnDialog"
-            :show-close="false"
+
             width="450px">
             <div style="display: inline;" v-for="(item, index) in classificationData">
                 <el-radio
@@ -97,9 +97,6 @@
                     :label="item.type_name">{{item.type_name}}
                 </el-radio>
             </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="confirmAddType">确认</el-button>
-            </span>
         </el-dialog>
 
         <el-dialog
@@ -109,24 +106,48 @@
             width="990px">
             <el-table
                 :resizable="false"
-                show-overflow-tooltip
                 :data="question"
                 highlight-current-row
                 :border="true"
-                @row-click="">
-                <el-table-column align="center" width="60" prop="id" label="ID" ></el-table-column>
-                <el-table-column align="center" prop="type_name" label="类型" ></el-table-column>
-                <el-table-column align="center" prop="question_owner" label="作者" ></el-table-column>
-                <el-table-column align="center" prop="question_describe" label="问题描述" ></el-table-column>
-                <el-table-column align="center" prop="question_explain" label="问题解释" ></el-table-column>
-                <el-table-column align="center" prop="item_a" label="A" ></el-table-column>
-                <el-table-column align="center" prop="item_b" label="B" ></el-table-column>
-                <el-table-column align="center" prop="item_c" label="C" ></el-table-column>
-                <el-table-column align="center" prop="item_d" label="D" ></el-table-column>
-                <el-table-column align="center" prop="item_ans" label="正确选项" ></el-table-column>
+                @row-click="questionItemRowClick">
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="id" label="ID" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center"  prop="type_name" label="类型" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center"  prop="question_owner" label="作者" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="question_describe" label="问题描述" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="question_explain" label="问题解释" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="item_a" label="A" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="item_b" label="B" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="item_c" label="C" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="item_d" label="D" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="item_ans" label="正确选项" ></el-table-column>
+                <el-table-column :show-overflow-tooltip="true" align="center" prop="question_status" label="status" ></el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="">确认</el-button>
+                <el-button type="danger" @click="typeQuestionDialog = false">Cancle</el-button>
+                <el-button type="primary" @click="typeQuestionDialog = false">确认</el-button>
+            </span>
+        </el-dialog>
+
+        <el-dialog
+                :visible.sync="questionCardDialog"
+                :title="question.type_name"
+                :show-close="false"
+                top="1vh"
+                width="690px">
+            <el-card>
+                <div slot="header">
+                    <span>{{question.question_describe}}</span>
+                </div>
+                <el-alert :title="'A.'+question.item_a" type="success" :closable="false"></el-alert>
+                <el-alert :title="'B.'+question.item_b" type="success" :closable="false"></el-alert>
+                <el-alert :title="'C.'+question.item_c" type="success" :closable="false"></el-alert>
+                <el-alert :title="'D.'+question.item_d" type="success" :closable="false"></el-alert>
+                <h2 style="color: #67C23A">正确答案：{{question.item_ans}}</h2>
+                <h2 style="color: #F56C6C">解析：</h2>
+                <p>{{question.question_explain}}</p>
+            </el-card>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="danger" @click="deleteQuestion">删除</el-button>
             </span>
         </el-dialog>
 
@@ -164,14 +185,16 @@
                         'item_b': '',
                         'item_c': '',
                         'item_d': '',
-                        'item_ans': ''
+                        'item_ans': '',
+                        'question_status': ''
                     }
                 ],
                 addTypeDialog: false,
                 addQuestionDialog: false,
                 addRadioBtnDialog: false,
                 typeQuestionDialog: false,
-                owner: ''
+                questionCardDialog: false,
+                owner: '',
 
             }
         },
@@ -185,7 +208,7 @@
             confirmAddType() {
                 this.$axios({
                     url: '/api/client/type/insertType',
-                    method: 'get',
+                    method: 'post',
                     data: {
                         'type_name': this.type.type_name,
                         'type_describe': this.type.type_describe
@@ -204,21 +227,10 @@
             },
             addQuestionClick() {
 
-                this.$axios({
-                    url: '/api/client/user/getUserByUsername',
-                    method: 'post',
-                    params: {
-                        'username': this.$cookies.get('user')
-                    }
-                }).then(response => {
-                    this.owner = response.data.id;
-                }).catch(error => {
-                    this.$message({
-                        message: error,
-                        type: 'error'
-                    });
+                this.$message({
+                    message: this.owner,
+                    type: 'success'
                 });
-
 
                 this.$axios({
                     url: '/api/client/question/insertQuestion',
@@ -262,6 +274,61 @@
                         type: 'error'
                     });
                 });
+            },
+            deleteQuestion() {
+
+                this.$axios({
+                    url: '/api/client/question/deleteQuestion',
+                    method: 'post',
+                    params: {
+                        'id': this.question.id
+                    }
+                }).then(response => {
+                    this.$message({
+                        type: 'success',
+                        message: response.data
+                    });
+                }).catch(error => {
+                    this.$message({
+                        type: 'error',
+                        message: error
+                    });
+                });
+
+            },
+            questionItemRowClick(row) {
+
+                this.question = row;
+                this.questionCardDialog = true;
+/*                this.$confirm('此操作将删除该题目是否继续', 'Tiptop', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$axios({
+                        url: '/api/client/question/deleteQuestion',
+                        method: 'post',
+                        params: {
+                            'id': row.id
+                        }
+                    }).then(response => {
+                        this.$message({
+                            type: 'success',
+                            message: response.data
+                        });
+                    }).catch(error => {
+                        this.$message({
+                            type: 'error',
+                            message: '删除失败'
+                        });
+                    }).finally(final =>{
+                        this.typeQuestionDialog = false;
+                    });
+                }).catch(() => {
+
+                });*/
+
+
             }
 
         },
@@ -277,6 +344,22 @@
                     type: 'error'
                 });
             });
+
+            this.$axios({
+                url: '/api/client/user/getUserByUsername',
+                method: 'post',
+                params: {
+                    'username': this.$cookies.get('user')
+                }
+            }).then(response => {
+                this.owner = response.data.id;
+            }).catch(error => {
+                this.$message({
+                    message: error,
+                    type: 'error'
+                });
+            });
+
         }
     }
 </script>
