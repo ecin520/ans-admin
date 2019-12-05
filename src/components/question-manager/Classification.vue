@@ -264,7 +264,8 @@
                     url: '/api/client/question/getQuestionsByTypeName',
                     method: 'post',
                     params: {
-                        'typeName': row.type_name
+                        'typeName': row.type_name,
+                        'questionStatus': 1
                     }
                 }).then(response => {
                     this.question = response.data;

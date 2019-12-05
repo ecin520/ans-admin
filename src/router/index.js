@@ -13,6 +13,7 @@ import Monitor from "../components/monitor/Monitor";
 
 import Question from "../components/question-manager/Question";
 import Classification from "../components/question-manager/Classification";
+import QuestionReview from "../components/question-manager/QuestionReview";
 
 import System from "../components/system-manager/System";
 
@@ -78,7 +79,13 @@ const router = new Router({
               path: '/Classification',
               name: 'Classification',
               component: Classification
+            },
+            {
+              path: '/QuestionReview',
+              name: 'QuestionReview',
+              component: QuestionReview
             }
+
           ]
         },
         {

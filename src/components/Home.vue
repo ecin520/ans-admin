@@ -46,10 +46,24 @@
             },
             unLogin() {
                 this.$cookies.remove('isLogin');
-                this.$message({
-                    message: '注销成功！',
-                    type: 'success'
+
+                this.$axios({
+                    url: '/api/client/user/logout',
+                    method: 'get'
+                }).then(response => {
+                    this.$message({
+                        message: response.data,
+                        type: 'success'
+                    });
+                }).catch(error => {
+                    this.$message({
+                        message: error,
+                        type: 'error'
+                    });
                 });
+
+
+
                 this.$router.push('/');
             }
         },

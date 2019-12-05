@@ -57,7 +57,7 @@
         .login-card {
             display: flex;
             justify-content: center;
-            margin: 200px auto;
+            margin: 120px auto;
             width: 350px;
             .image {
                 margin-left: 15px;

@@ -45,7 +45,7 @@
                       this.$router.push({path: '/Classification'});
                         break;
                     case '3':
-                      this.$router.push({path: '/Classification'});
+                      this.$router.push({path: '/QuestionReview'});
                         break;
                 }
             }
