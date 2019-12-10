@@ -64,7 +64,7 @@
                 :visible.sync="dialogVisible2"
                 :show-close="false"
                 top="1vh"
-                width="550px">
+                width="650px">
             <el-table :data="permission" border style="width: 100%">
                 <el-table-column align="center" prop="id" label="ID" ></el-table-column>
                 <el-table-column align="center" prop="permission_name" label="权限名" ></el-table-column>

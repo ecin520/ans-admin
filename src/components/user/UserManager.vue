@@ -56,7 +56,7 @@
                 :show-close="false"
                 top="1vh"
                 width="650px">
-            <el-form label-position="left" label-width="80px" :mode="modifyUser">
+            <el-form label-position="right" label-width="70px" :mode="modifyUser">
                 <el-form-item label="用户名">
                     <el-input v-model="modifyUser.username"></el-input>
                 </el-form-item>
@@ -66,27 +66,63 @@
                 <el-form-item label="头像">
                     <el-input v-model="modifyUser.avatar_url"></el-input>
                 </el-form-item>
-                <el-form-item label="电话">
-                    <el-input v-model="modifyUser.tel_number"></el-input>
-                </el-form-item>
-                <el-form-item label="rank">
-                    <el-input v-model="modifyUser.rank"></el-input>
-                </el-form-item>
                 <el-form-item label="签名">
                     <el-input v-model="modifyUser.sign"></el-input>
                 </el-form-item>
-                <el-form-item label="status">
-                    <el-input v-model="modifyUser.status"></el-input>
-                </el-form-item>
-                <el-form-item label="答题总数">
-                    <el-input v-model="modifyUser.ans_number"></el-input>
-                </el-form-item>
-                <el-form-item label="答对题数">
-                    <el-input v-model="modifyUser.correct_number"></el-input>
-                </el-form-item>
-                <el-form-item label="擅长类型">
-                    <el-input v-model="modifyUser.good_at"></el-input>
-                </el-form-item>
+
+                <el-row>
+                    <el-col span="11">
+                        <el-form-item label="电话">
+                            <el-input v-model="modifyUser.tel_number"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col span="1">
+                        &nbsp;
+                    </el-col>
+                    <el-col span="11">
+                        <el-form-item label="rank">
+                            <el-input v-model="modifyUser.rank"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+
+                <el-row>
+                    <el-col span="11">
+                        <el-form-item label="status">
+                            <el-input v-model="modifyUser.status"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col span="1">
+                        &nbsp;
+                    </el-col>
+                    <el-col span="11">
+                        <el-form-item label="擅长类型">
+                            <el-input v-model="modifyUser.good_at"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+
+
+                <el-row>
+                    <el-col span="11">
+                        <el-form-item label="答题总数">
+                            <el-input v-model="modifyUser.ans_number"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col span="1">
+                        &nbsp;
+                    </el-col>
+                    <el-col span="11">
+                        <el-form-item label="答对题数">
+                            <el-input v-model="modifyUser.correct_number"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+
+
                 <el-form-item label="注册时间">
                     <el-input v-model="modifyUser.register_time"></el-input>
                 </el-form-item>
@@ -103,7 +139,7 @@
                 :visible.sync="dialogVisible2"
                 :show-close="false"
                 top="1vh"
-                width="550px">
+                width="650px">
             <el-table :data="role" style="width: 100%" border @row-click="deleteRowClick" >
                 <el-table-column align="center" prop="id" label="ID" ></el-table-column>
                 <el-table-column align="center" prop="role_name" label="角色名" ></el-table-column>
@@ -120,7 +156,7 @@
                 :visible.sync="permissionDialogVisible"
                 :show-close="false"
                 top="1vh"
-                width="550px">
+                width="650px">
             <el-table :data="permission" border style="width: 100%">
                 <el-table-column align="center" prop="id" label="ID" ></el-table-column>
                 <el-table-column align="center" prop="permission_name" label="权限名" ></el-table-column>

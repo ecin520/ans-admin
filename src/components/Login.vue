@@ -2,9 +2,9 @@
     <div class="login">
         <transition name="el-fade-in-linear">
             <el-card class="login-card">
-                <img class="image" src="@/assets/logo.png"><br/>
-                <el-input placeholder="username" v-model="username"></el-input><br><br>
-                <el-input placeholder="password" v-model="password" show-password></el-input><br><br>
+                <img width="70%" class="image" src="@/assets/logo1.gif"><br/>
+                <el-input prefix-icon="el-icon-user-solid" placeholder="username" v-model="username"></el-input><br><br>
+                <el-input prefix-icon="el-icon-key" placeholder="password" v-model="password" show-password></el-input><br><br>
                 <el-button @click="loginClick" class="login-btn" type="success">Login</el-button>
             </el-card>
         </transition>
@@ -32,14 +32,19 @@
                         'password': this.password
                     }
                 }).then(response => {
-                    this.$message({
-                        message: response.data,
-                        type: 'success'
-                    });
                     if (response.data['status code'] === 200) {
+                        this.$message({
+                            message: response.data,
+                            type: 'success'
+                        });
                         this.$cookies.set('isLogin', 'ecin520');
                         this.$cookies.set('user', this.username);
                         this.$router.push({name: 'Home'});
+                    } else {
+                        this.$message({
+                            message: response.data,
+                            type: 'error'
+                        });
                     }
                 }).catch(error => {
                     this.$message({
@@ -60,10 +65,10 @@
             margin: 120px auto;
             width: 350px;
             .image {
-                margin-left: 15px;
+                margin-left: 40px;
             }
             .login-btn {
-                margin-left: 80px;
+                margin-left: 120px;
             }
         }
     }

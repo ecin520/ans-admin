@@ -138,10 +138,10 @@
                 <div slot="header">
                     <span>{{question.question_describe}}</span>
                 </div>
-                <el-alert :title="'A.'+question.item_a" type="success" :closable="false"></el-alert>
-                <el-alert :title="'B.'+question.item_b" type="success" :closable="false"></el-alert>
-                <el-alert :title="'C.'+question.item_c" type="success" :closable="false"></el-alert>
-                <el-alert :title="'D.'+question.item_d" type="success" :closable="false"></el-alert>
+                <el-alert :title="'A. '+question.item_a" type="success" :closable="false"></el-alert>
+                <el-alert :title="'B. '+question.item_b" type="success" :closable="false"></el-alert>
+                <el-alert :title="'C. '+question.item_c" type="success" :closable="false"></el-alert>
+                <el-alert :title="'D. '+question.item_d" type="success" :closable="false"></el-alert>
                 <h2 style="color: #67C23A">正确答案：{{question.item_ans}}</h2>
                 <h2 style="color: #F56C6C">解析：</h2>
                 <p>{{question.question_explain}}</p>
@@ -227,10 +227,10 @@
             },
             addQuestionClick() {
 
-                this.$message({
-                    message: this.owner,
-                    type: 'success'
-                });
+                // this.$message({
+                //     message: this.owner,
+                //     type: 'success'
+                // });
 
                 this.$axios({
                     url: '/api/client/question/insertQuestion',
