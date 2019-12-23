@@ -90,7 +90,7 @@
                     data: {
                         'id': this.question.id,
                         'type_name': this.question.type_name,
-                        'question_owner': this.owner,
+                        'question_owner': this.question.question_owner,
                         'question_describe': this.question.question_describe,
                         'question_explain': this.question.question_explain,
                         'item_a': this.question.item_a,
